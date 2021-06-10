@@ -29,12 +29,24 @@ const resolvers = {
 
     Mutation: {
         register: async (_, { email, password, name }, { res }) => {
+            const checkUser = pool.query({
+                text: "SELECT * FROM users WHERE email = $1",
+                values: [email],
+            });
+            if ((await checkUser).rows.length > 0) {
+                return null;
+            }
+
             const hashedPassword = await bcrypt.hash(password, 10);
             const user = await pool.query({
                 text: "INSERT INTO users (name, email, password) VALUES($1, $2, $3) RETURNING *;",
                 values: [name, email, hashedPassword],
             });
             const { user_id } = user.rows[0];
+
+            res.cookie("refresh-token", genRefreshToken(user_id));
+            res.cookie("access-token", genAccessToken(user_id));
+
             return { user_id, email, name };
         },
 
