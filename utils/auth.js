@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { pool } = require("../db");
 
 const genRefreshToken = (user_id) => {
     return jwt.sign({ user_id }, process.env.REFRESH_TOKEN_SECRET, {
