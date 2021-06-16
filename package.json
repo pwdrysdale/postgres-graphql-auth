@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "dev": "nodemon index.js"
+        "dev": "concurrently \"nodemon index.js\" \"npm run start --prefix client\""
     },
     "keywords": [],
     "author": "",
@@ -21,6 +21,7 @@
         "pg": "^8.6.0"
     },
     "devDependencies": {
+        "concurrently": "^6.2.0",
         "nodemon": "^2.0.7"
     }
 }

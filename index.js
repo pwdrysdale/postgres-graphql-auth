@@ -2,6 +2,7 @@ const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 const { typeDefs } = require("./typeDefs");
 const { resolvers } = require("./resolvers");
@@ -19,6 +20,7 @@ const StartServer = async () => {
 
     const app = express();
 
+    app.use(cors());
     app.use(cookieParser());
     app.use(authMiddleware);
 
